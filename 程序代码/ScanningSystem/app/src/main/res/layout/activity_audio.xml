@@ -1,0 +1,8 @@
+<Button
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:text="按住说话"
+  android:textColor="@android:color/white"
+  android:id="@+id/button"
+  android:background="@color/colorPrimary"
+   />
