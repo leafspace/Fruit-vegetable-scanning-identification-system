@@ -1,25 +1,24 @@
+package cn.leafspace.scanningsystem.CameraSupport;
+
 import android.util.Log;
 import java.io.IOException;
 import android.content.Context;
 import android.hardware.Camera;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
-
+import android.content.pm.PackageManager;
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     private static final String TAG = "main";
     private SurfaceHolder mHolder;
     private Camera mCamera;
 
-    /** 检测设备是否存在Camera硬件 */
+    /* 检测设备是否存在Camera硬件 */
     private boolean checkCameraHardware(Context context) {
-        if (context.getPackageManager().hasSystemFeature(
-                PackageManager.FEATURE_CAMERA)) {
-            // 存在
-            return true;
+        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+            return true;                                                     //存在
         } else {
-            // 不存在
-            return false;
+            return false;                                                    //不存在
         }
     }
     

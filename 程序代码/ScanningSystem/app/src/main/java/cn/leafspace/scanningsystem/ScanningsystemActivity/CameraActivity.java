@@ -1,10 +1,11 @@
 import java.io.File;
 import java.io.FileOutputStream;
 
+import cn.leafspace.scanningsystem.CameraSupport.*;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.os.Bundle;
 import android.view.View;
-import android.app.Activity;
 import android.widget.Button;
 import android.hardware.Camera;
 import android.content.Context;
@@ -13,7 +14,7 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera.AutoFocusCallback;
 import android.hardware.Camera.PictureCallback;
 
-public class CameraActivity extends Activity {
+public class CameraActivity extends AppCompatActivity {
     protected static final String TAG = "main";
     private Camera mCamera;
     private CameraPreview mPreview;

@@ -1,4 +1,4 @@
-package cn.leafspace.scanningsystem.scanningsystem;
+package cn.leafspace.scanningsystem.ScanningsystemActivity;
 
 import org.junit.Test;
 

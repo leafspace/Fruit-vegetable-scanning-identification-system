@@ -1,23 +1,25 @@
+package cn.leafspace.scanningsystem.VoiceSupport;
+
+import java.io.File;
+import android.util.Log;
+import java.io.IOException;
+import android.os.Environment;
+import android.util.TimeUtils;
+import android.media.MediaRecorder;
+
 public class AudioRecoder {
-    
-        //文件路径
-        private String filePath;
-        //文件夹路径
-        private String FolderPath;
-    
+        private String filePath;                                             //文件路径
+        private String FolderPath;                                           //文件夹路径
         private MediaRecorder mMediaRecorder;
         private final String TAG = "fan";
-        public static final int MAX_LENGTH = 1000 * 60 * 10;// 最大录音时长1000*60*10;
-    
+        public static final int MAX_LENGTH = 1000 * 60 * 10;                 //最大录音时长1000*60*10;
         private OnAudioStatusUpdateListener audioStatusUpdateListener;
-    
-        /**
-         * 文件存储默认sdcard/record
-         */
-        public AudioRecoder(){
-    
-            //默认保存路径为/sdcard/record/下
-            this(Environment.getExternalStorageDirectory()+"/record/");
+        private long startTime;
+        private long endTime;
+
+        /*文件存储默认sdcard/record*/
+        public AudioRecoder() {
+            this(Environment.getExternalStorageDirectory()+"/record/");      //默认保存路径为/sdcard/record/下
         }
     
         public AudioRecoder(String filePath) {
@@ -28,16 +30,9 @@ public class AudioRecoder {
     
             this.FolderPath = filePath;
         }
-    
-        private long startTime;
-        private long endTime;
-    
-    
-    
+
         /**
          * 开始录音 使用amr格式
-         *      录音文件
-         * @return
          */
         public void startRecord() {
             // 开始录音

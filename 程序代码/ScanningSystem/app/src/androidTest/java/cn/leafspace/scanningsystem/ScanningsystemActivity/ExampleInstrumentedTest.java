@@ -1,4 +1,4 @@
-package cn.leafspace.scanningsystem.scanningsystem;
+package cn.leafspace.scanningsystem.ScanningsystemActivity;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

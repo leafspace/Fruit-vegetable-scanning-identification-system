@@ -1,7 +1,10 @@
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.*;
 
-public class MainActivity extends AppCompatActivity {
+public class AudioActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
                 mImageView = (ImageView) view.findViewById(R.id.iv_recording_icon);
                 mTextView = (TextView) view.findViewById(R.id.tv_recording_time);
         
-                mAudioRecoderUtils = new AudioRecoderUtils();
+                mAudioRecoderUtils = new AudioRecoder();
         
                 //录音回调
                 mAudioRecoderUtils.setOnAudioStatusUpdateListener(new AudioRecoderUtils.OnAudioStatusUpdateListener() {
@@ -40,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                     //录音结束，filePath为保存路径
                     @Override
                     public void onStop(String filePath) {
-                        Toast.makeText(MainActivity.this, "录音保存在：" + filePath, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AudioActivity.this, "录音保存在：" + filePath, Toast.LENGTH_SHORT).show();
                         mTextView.setText(TimeUtils.long2String(0));
                     }
                 });
@@ -65,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                             case MotionEvent.ACTION_UP:
         
                                 mAudioRecoderUtils.stopRecord();        //结束录音（保存录音文件）
-        //                        mAudioRecoderUtils.cancelRecord();    //取消录音（不保存录音文件）
+                                mAudioRecoderUtils.cancelRecord();    //取消录音（不保存录音文件）
                                 mPop.dismiss();
                                 mButton.setText("按住说话");
         
