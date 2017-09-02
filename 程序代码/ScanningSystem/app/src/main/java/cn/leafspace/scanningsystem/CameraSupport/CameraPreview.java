@@ -1,6 +1,5 @@
 package cn.leafspace.scanningsystem.CameraSupport;
 
-import android.util.Log;
 import java.io.IOException;
 import android.content.Context;
 import android.hardware.Camera;
@@ -10,8 +9,8 @@ import android.content.pm.PackageManager;
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     private static final String TAG = "main";
-    private SurfaceHolder mHolder;
-    private Camera mCamera;
+    private SurfaceHolder surfaceHolder;
+    private Camera camera;
 
     /* 检测设备是否存在Camera硬件 */
     private boolean checkCameraHardware(Context context) {
@@ -24,53 +23,34 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     
     public CameraPreview(Context context, Camera camera) {
         super(context);
-        mCamera = camera;
-
-        // 通过SurfaceView获得SurfaceHolder
-        mHolder = getHolder();
-        // 为SurfaceHolder指定回调
-        mHolder.addCallback(this);
-        // 设置Surface不维护自己的缓冲区，而是等待屏幕的渲染引擎将内容推送到界面 在Android3.0之后弃用
-        mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        this.camera = camera;
+        this.surfaceHolder = getHolder();                                    //通过SurfaceView获得SurfaceHolder
+        this.surfaceHolder.addCallback(this);                                //为SurfaceHolder指定回调
+        this.surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS); //设置Surface不维护自己的缓冲区
     }
 
-    public void surfaceCreated(SurfaceHolder holder) {
-        // 当Surface被创建之后，开始Camera的预览
+    public void surfaceCreated(SurfaceHolder holder) {                       //当Surface被创建之后，开始Camera的预览
         try {
-            mCamera.setPreviewDisplay(holder);
-            mCamera.startPreview();
+            this.camera.setPreviewDisplay(holder);
+            this.camera.startPreview();
         } catch (IOException e) {
-            Log.d(TAG, "预览失败");
+            e.printStackTrace();
         }
     }
 
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        
-    }
+    public void surfaceDestroyed(SurfaceHolder holder) {}
 
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-        // Surface发生改变的时候将被调用，第一次显示到界面的时候也会被调用
-        if (mHolder.getSurface() == null){
-        // 如果Surface为空，不继续操作
-          return;
+        if (this.surfaceHolder.getSurface() == null){
+            return;
         }
 
-        // 停止Camera的预览
         try {
-            mCamera.stopPreview();
+            this.camera.stopPreview();                                       //停止Camera的预览
         } catch (Exception e){
-            Log.d(TAG, "当Surface改变后，停止预览出错");
+            e.printStackTrace();
         }
 
-        // 在预览前可以指定Camera的各项参数
-
-        // 重新开始预览
-        try {
-            mCamera.setPreviewDisplay(mHolder);
-            mCamera.startPreview();
-
-        } catch (Exception e){
-            Log.d(TAG, "预览Camera出错");
-        }
+        this.surfaceCreated(this.surfaceHolder);
     }
 }

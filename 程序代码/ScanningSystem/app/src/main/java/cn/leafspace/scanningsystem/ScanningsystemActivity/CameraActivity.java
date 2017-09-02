@@ -1,101 +1,49 @@
-import java.io.File;
-import java.io.FileOutputStream;
+package cn.leafspace.scanningsystem.ScanningsystemActivity;
 
-import cn.leafspace.scanningsystem.CameraSupport.*;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.widget.Toast;
+import android.content.Intent;
 import android.hardware.Camera;
-import android.content.Context;
 import android.widget.FrameLayout;
-import android.content.pm.PackageManager;
-import android.hardware.Camera.AutoFocusCallback;
-import android.hardware.Camera.PictureCallback;
+import android.support.v7.app.AppCompatActivity;
+import cn.leafspace.scanningsystem.CameraSupport.CameraPreview;
 
 public class CameraActivity extends AppCompatActivity {
-    protected static final String TAG = "main";
-    private Camera mCamera;
-    private CameraPreview mPreview;
+    private Camera camera;
+    private CameraPreview cameraPreview;
+
+    private Camera getCameraInstance() {                                                         //打开一个Camera
+        try {
+            return Camera.open();
+        } catch (Exception e) {
+            Toast.makeText(this, "无法打开摄像头, 请检查设置!", Toast.LENGTH_LONG);
+            return null;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_camera);
 
-        mCamera = getCameraInstance();
-
-        // 创建预览类，并与Camera关联，最后添加到界面布局中
-        mPreview = new CameraPreview(this, mCamera);
-        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-        preview.addView(mPreview);
-
-
-        Button captureButton = (Button) findViewById(R.id.button_capture);
-        captureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 在捕获图片前进行自动对焦
-                mCamera.autoFocus(new AutoFocusCallback() {
-                    
-                    @Override
-                    public void onAutoFocus(boolean success, Camera camera) {
-                        // 从Camera捕获图片
-                        mCamera.takePicture(null, null, mPicture);
-                    }
-                });                
-            }
-        });
-    }
-
-    /** 检测设备是否存在Camera硬件 */
-    private boolean checkCameraHardware(Context context) {
-        if (context.getPackageManager().hasSystemFeature(
-                PackageManager.FEATURE_CAMERA)) {
-            // 存在
-            return true;
+        //创建预览类，并与Camera关联，最后添加到界面布局中
+        this.camera = this.getCameraInstance();
+        if (this.camera == null) {
+            final Intent intent = new Intent(CameraActivity.this, MainActivity.class);
+            startActivity(intent);
         } else {
-            // 不存在
-            return false;
+            this.cameraPreview = new CameraPreview(this, this.camera);
+            FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+            preview.addView(this.cameraPreview);
         }
     }
-
-    /** 打开一个Camera */
-    public static Camera getCameraInstance() {
-        Camera c = null;
-        try {
-            c = Camera.open(); 
-        } catch (Exception e) {
-            Log.d(TAG, "打开Camera失败失败");
-        }
-        return c; 
-    }
-
-    private PictureCallback mPicture = new PictureCallback() {
-
-        @Override
-        public void onPictureTaken(byte[] data, Camera camera) {
-            // 获取Jpeg图片，并保存在sd卡上
-            File pictureFile = new File("/sdcard/" + System.currentTimeMillis()
-                    + ".jpg");
-            try {
-                FileOutputStream fos = new FileOutputStream(pictureFile);
-                fos.write(data);
-                fos.close();
-            } catch (Exception e) {
-                Log.d(TAG, "保存图片失败");
-            }
-        }
-    };
 
     @Override
     protected void onDestroy() {
-        // 回收Camera资源
-        if(mCamera!=null){
-            mCamera.stopPreview();
-            mCamera.release();
-            mCamera=null;
+        if(this.camera != null){
+            this.camera.stopPreview();
+            this.camera.release();
+            this.camera = null;
         }
         super.onDestroy();
     }
