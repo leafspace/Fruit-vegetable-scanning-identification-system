@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ear" name="Watermelon sound detection:ear exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/Watermelon_sound_detection_ear_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="Watermelon sound detection/javaeeApplication/javaEEApplication" />
+    </root>
+  </artifact>
+</component>
