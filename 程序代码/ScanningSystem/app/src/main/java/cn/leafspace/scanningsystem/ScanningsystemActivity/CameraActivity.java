@@ -29,7 +29,7 @@ public class CameraActivity extends AppCompatActivity {
         //创建预览类，并与Camera关联，最后添加到界面布局中
         this.camera = this.getCameraInstance();
         if (this.camera == null) {
-            final Intent intent = new Intent(CameraActivity.this, MainActivity.class);
+            final Intent intent = new Intent(CameraActivity.this, AudioActivity.class);
             startActivity(intent);
         } else {
             this.cameraPreview = new CameraPreview(this, this.camera);

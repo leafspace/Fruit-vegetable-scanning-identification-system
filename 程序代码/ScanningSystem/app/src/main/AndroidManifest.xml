@@ -9,6 +9,15 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+        <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+        <uses-permission android:name="android.permission.CAMERA"></uses-permission>
+        <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"></uses-permission>
+
+        <uses-feature android:name="android.hardware.camera" />
+        <uses-feature android:name="android.hardware.camera.autofocus" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -18,6 +27,7 @@
         </activity>
         <activity android:name=".CameraActivity">
         </activity>
+        <activity android:name=".AudioActivity">
+        </activity>
     </application>
-
 </manifest>
